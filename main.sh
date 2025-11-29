@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 feature/새기능이름
 
 #!/usr/bin/env bash
@@ -55,3 +56,56 @@ safe_exit() {
 # Ctrl+C(SIGINT) 들어오면 safe_exit 실행
 trap safe_exit SIGINT
 main
+=======
+#!/usr/bin/env bash
+
+# ==========================
+#  학번 / 점수 입력 함수
+# ==========================
+
+read_student_id() {
+    while [ 1 ] 
+    do
+        echo "학번을 입력하세요: "
+        read student_id
+
+        # 비어있는지 확인
+        if [ -z "$student_id" ]
+        then
+            echo "학번은 비어 있을 수 없습니다."
+            continue
+        fi
+
+        # 숫자 이외의 문자가 섞였는지 확인 (*[!0-9]* 패턴이면 숫자가 아닌 문자가 있음)
+        case "$student_id" in
+            ''|*[!0-9]*)
+            # 공백이거나, 숫자가 아닌 문자가 하나라도 포함된 경우
+                echo "학번은 숫자만 입력해야 합니다.";;
+            *)
+                if [ "${#student_id}" -ne 9 ]
+                then
+                    echo "학번은 9자리여야 합니다."
+                    continue
+                fi
+                echo "유효한 학번입니다."
+                break;;
+        esac
+    done
+}
+
+read_score() {
+
+}
+
+# ==========================
+#  메인 흐름
+# ==========================
+
+read_student_id
+read_score
+
+echo
+echo "입력 결과:"
+echo " - 학번: $student_id"
+echo " - 점수: $score"
+>>>>>>> 307a9eb (read id init)
