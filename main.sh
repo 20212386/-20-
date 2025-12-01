@@ -1,3 +1,5 @@
+feature/새기능이름
+
 #!/usr/bin/env bash
 
 DATA_FILE="grade_data.txt"
@@ -52,3 +54,4 @@ safe_exit() {
 
 # Ctrl+C(SIGINT) 들어오면 safe_exit 실행
 trap safe_exit SIGINT
+main
