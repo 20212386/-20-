@@ -163,7 +163,7 @@ save_student() {
     read_score
 
     echo "$student_id $name $score" >> "$DATA_FILE"
-    echo "DB에 저장 완료: $student_id $name $score
+    echo "DB에 저장 완료: $student_id $name $score"
 }
 
 search_student() {
@@ -266,5 +266,6 @@ main() {
 trap safe_exit SIGINT
 main
 //fix: main.sh  통합 및 에러 수정
+
 
 
