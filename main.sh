@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 feature/새기능이름
 
 #!/usr/bin/env bash
@@ -109,4 +108,3 @@ delete_student() {
 
     echo "학번 $student_id 의 정보를 삭제했습니다."
 }
-
