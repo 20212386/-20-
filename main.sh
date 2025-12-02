@@ -121,7 +121,7 @@ save_student() {
     read_student_id
     
     # 이미 같은 학번이 있는지 체크 (옵션)
-    if grep -q "^$student_id " "$DB_FILE"
+    if grep -q "^$student_id " "$DATA_FILE"
     then
         echo "이미 존재하는 학번입니다. 기존 데이터를 덮어쓰려면 나중에 '수정 기능'에서 처리하세요."
         return
@@ -129,6 +129,6 @@ save_student() {
     read_score
 
     # "학번 점수" 형식으로 한 줄 추가
-    echo "$student_id $score" >> "$DB_FILE"
+    echo "$student_id $score" >> "$DATA_FILE"
     echo "DB에 저장 완료: $student_id $score"
 }
