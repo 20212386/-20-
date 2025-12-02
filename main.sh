@@ -183,20 +183,25 @@ update_score() {
     echo "===== 점수 수정 ====="
     read_student_id
 
+    # 해당 학번 존재 여부 확인
     if ! grep -q "^$student_id " "$DATA_FILE"; then
         echo "해당 학번($student_id)의 정보가 DB에 없습니다."
         return
     fi
 
+    old_line=$(grep "^$student_id " "$DATA_FILE")
+    student_name=$(echo "$old_line" | awk '{print $2}')
+
+    # 새 점수 입력
     read_score
 
     cp "$DATA_FILE" "${DATA_FILE}.bak"
 
-    # 줄 전체를 "학번 점수" 형태로 교체
-    sed -i "s/^$student_id .*/$student_id $score/" "$DATA_FILE"
+    sed -i "s/^$student_id .*/$student_id $student_name $score/" "$DATA_FILE"
 
-    echo "$student_id 의 점수를 $score 로 수정했습니다."
+    echo "$student_id ($student_name) 의 점수를 $score 로 수정했습니다."
 }
+
 
 delete_student() {
     echo "===== 학생 삭제 ====="
@@ -261,4 +266,5 @@ main() {
 trap safe_exit SIGINT
 main
 //fix: main.sh  통합 및 에러 수정
+
 
