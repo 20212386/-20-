@@ -157,11 +157,13 @@ save_student() {
         echo "이미 존재하는 학번입니다. 기존 데이터를 덮어쓰려면 나중에 '수정 기능'에서 처리하세요."
         return
     fi
+    echo "이름을 입력하세요: "
+    read name
 
     read_score
 
-    echo "$student_id $score" >> "$DATA_FILE"
-    echo "DB에 저장 완료: $student_id $score"
+    echo "$student_id $name $score" >> "$DATA_FILE"
+    echo "DB에 저장 완료: $student_id $name $score
 }
 
 search_student() {
@@ -259,3 +261,4 @@ main() {
 trap safe_exit SIGINT
 main
 //fix: main.sh  통합 및 에러 수정
+
