@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 feature/새기능이름
 
 #!/usr/bin/env bash
@@ -55,3 +56,57 @@ safe_exit() {
 # Ctrl+C(SIGINT) 들어오면 safe_exit 실행
 trap safe_exit SIGINT
 main
+
+
+search_student() {
+    echo "===== 학생 검색 ====="
+    read_student_id   # student_id 변수 설정
+    # 대상 존재 여부 먼저 확인
+    result=$(grep "^$student_id " "$DATA_FILE") #^는 student_id로 시작하고 그 뒤에 공백이 존재하는 줄을 의미 함
+
+    if [ -z "$result" ]; then
+        echo "해당 학번($student_id)의 정보가 DB에 없습니다."
+    else
+        echo "검색 결과: $result"
+    fi
+}
+
+update_score() {
+    echo "===== 점수 수정 ====="
+    read_student_id   # student_id 변수 설정
+    
+    if ! grep -q "^$student_id " "$DATA_FILE"; then
+        echo "해당 학번($student_id)의 정보가 DB에 없습니다."
+        return
+    fi
+
+    # 새 점수 입력받기
+    read_score        
+
+    # 백업 파일을 하나 만들고 수정하는 방식 (실수 방지용)
+    cp "$DATA_FILE" "${DATA_FILE}.bak"
+
+    # 줄 전체를 "학번 점수" 형태로 교체
+    sed -i "s/^$student_id .*/$student_id $score/" "$DB_FILE" #s:대체 .*:뒤에 뭐가 오든 전부
+
+    echo "$student_id 의 점수를 $score 로 수정했습니다."
+}
+
+delete_student() {
+    echo "===== 학생 삭제 ====="
+    read_student_id 
+
+    if ! grep -q "^$student_id " "$DATA_FILE"
+    then
+        echo "해당 학번($student_id)의 정보가 DB에 없습니다."
+        return
+    fi
+
+    cp "$DATA_FILE" "${DATA_FILE}.bak"
+
+    # 해당 학번으로 시작하는 줄 삭제
+    sed -i "/^$student_id /d" "$DATA_FILE" #d: 삭제
+
+    echo "학번 $student_id 의 정보를 삭제했습니다."
+}
+
