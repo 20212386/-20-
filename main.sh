@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 feature/새기능이름
 
 #!/usr/bin/env bash
@@ -133,4 +132,3 @@ save_student() {
     echo "$student_id $score" >> "$DB_FILE"
     echo "DB에 저장 완료: $student_id $score"
 }
->>>>>>> b45c78a (Feat: 입력값 검증 로직 구현)
