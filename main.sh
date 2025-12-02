@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 feature/새기능이름
 
 #!/usr/bin/env bash
@@ -56,9 +57,6 @@ safe_exit() {
 trap safe_exit SIGINT
 main
 
-# ==========================
-#  학번 / 점수 입력 함수
-# ==========================
 
 read_student_id() {
     while [ 1 ] 
@@ -79,18 +77,60 @@ read_student_id() {
             # 공백이거나, 숫자가 아닌 문자가 하나라도 포함된 경우
                 echo "학번은 숫자만 입력해야 합니다.";;
             *)
-                if [ "${#student_id}" -ne 9 ]
+                if [ "${#student_id}" -ne 9 ] # #은 변수의 길이를 셈
                 then
                     echo "학번은 9자리여야 합니다."
                     continue
                 fi
-                echo "유효한 학번입니다."
                 break;;
         esac
     done
 }
 
 read_score() {
+    while true
+    do
+        echo "점수를 입력하세요 (0~100): "
+        read score
 
+        # 비어있는지 확인
+        if [ -z "$score" ]
+        then
+            echo "점수는 비어 있을 수 없습니다."
+            continue
+        fi
+
+        # 숫자 이외의 문자가 섞였는지 확인
+        case "$score" in
+            ''|*[!0-9]*)
+                echo "점수는 숫자만 입력해야 합니다."
+                continue;;
+            *)
+                # 숫자만 있는 상태에서 범위 검사
+                if [ "$score" -lt 0 ] || [ "$score" -gt 100 ]
+                then
+                    echo "점수는 0 이상 100 이하만 입력할 수 있습니다."
+                    continue
+                fi
+                break
+                ;;
+        esac
+    done
 }
 
+save_student() {
+    read_student_id
+    
+    # 이미 같은 학번이 있는지 체크 (옵션)
+    if grep -q "^$student_id " "$DB_FILE"
+    then
+        echo "이미 존재하는 학번입니다. 기존 데이터를 덮어쓰려면 나중에 '수정 기능'에서 처리하세요."
+        return
+    fi
+    read_score
+
+    # "학번 점수" 형식으로 한 줄 추가
+    echo "$student_id $score" >> "$DB_FILE"
+    echo "DB에 저장 완료: $student_id $score"
+}
+>>>>>>> b45c78a (Feat: 입력값 검증 로직 구현)
